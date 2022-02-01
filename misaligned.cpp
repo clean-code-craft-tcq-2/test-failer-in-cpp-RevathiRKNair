@@ -16,7 +16,7 @@ std::string colorPair(int majorIdx, int minorIdx)
     output+=ch;
     output.append(majorColor[majorIdx]);
     output+=ch;
-    output.append(minorColor[majorIdx] );
+    output.append(minorColor[minorIdx] );
    
     return output;
 }
@@ -24,16 +24,15 @@ std::string colorPair(int majorIdx, int minorIdx)
 
 std::string numToColor(int pairNumber)
 {
-    int zeroBasedPairNumber = pairNumber - 1;
-    int majorClrIdx = (zeroBasedPairNumber / numberOfMinorColors);
-    int minorClrIdx = (zeroBasedPairNumber % numberOfMinorColors);
+    int majorClrIdx = (pairNumber / numberOfMinorColors);
+    int minorClrIdx = (pairNumber % numberOfMinorColors);
 
     return colorPair(majorClrIdx, minorClrIdx);
 }
 
 void printToConsol(int i, int j)
 {
-    std::cout << i * 5 + j << " | " << majorColor[i] << " | " << minorColor[i] << "\n";
+    std::cout << i * 5 + j << " | " << majorColor[i] << " | " << minorColor[j] << "\n";
 }
 
 
@@ -55,7 +54,11 @@ int printColorMap() {
 int main() {
     int result = printColorMap();
     assert(result == 25);
-    assert(numToColor(5) == "4|White|Slate");
-    std::cout << "All is well (maybe!)\n";
+    assert(numToColor(5) == "5|Red|Blue");
+    assert(numToColor(8) == "8|Red|Brown");
+    assert(numToColor(13) == "13|Black|Brown");
+    assert(numToColor(20) == "20|Violet|Blue");
+    assert(numToColor(24) == "24|Violet|Slate");
+    std::cout << "All is well!\n";
     return 0;
 }

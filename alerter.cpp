@@ -33,7 +33,7 @@ void failureCount(int result)
         // let us keep a count of failures to report
         // However, this code doesn't count failures!
         // Add a test below to catch this bug. Alter the stub above, if needed.
-        alertFailureCount += 0;
+        alertFailureCount += 1;
     }
 }
 
@@ -44,13 +44,39 @@ void alertInCelcius(float farenheit)
     failureCount(returnCode);
 }
 
+void testTempConversion(int tempInFahr, int expectedValue)
+{
+    float celcius = Fahr2Celcius(tempInFahr);
+    assert(celcius == expectedValue);
+}
+
+void testAlertSignal(int temperature, int expectedValue)
+{
+    alertInCelcius(temperature);
+    assert(expectedValue == alertFailureCount);
+}
+
+void testFailureCount(int errorCode, int expectedValue)
+{
+    alertFailureCount = 0;
+    failureCount(errorCode);
+    assert(alertFailureCount == expectedValue);
+}
+
 int main() 
 {
-    alertInCelcius(400.5);
-    assert(alertFailureCount == 1);
-    alertInCelcius(303.6);
-    assert(alertFailureCount == 2);
+    testAlertSignal(400.5,1);
+   
+    testAlertSignal(303.6,2);
+    
     std::cout << alertFailureCount << " alerts failed.\n";
     std::cout << "All is well (maybe!)\n";
+   
+    testTempConversion(32,0);
+
+    testFailureCount(200, 0);
+
+    testFailureCount(300,1);
+
     return 0;
 }
